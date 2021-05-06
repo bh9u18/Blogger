@@ -1,0 +1,21 @@
+{% if filter.qs %}
+
+	{% for blog in filter.qs %}
+
+		<div class="card-fluid border-danger mb-5 "style="border-color:red">
+  			<h5 class="card-header bg-warning">{{blog.blog_name}}</h5>
+  			<div class="card-body">
+    			<h6 class="card-subtitle mb-2 text-muted">Published on {{blog.date}} by {{blog.author}}</br>
+    			Category : {{blog.category}}</h6>
+    			<p class="card-text">{{blog.blog_text|safe}}</p>
+    			<a href="{% url 'blogger:details' blog.id%}" class="btn btn-dark">Go to Blog</a>
+  			</div>
+		</div>
+	{% endfor %}
+	
+{% else %}
+	<p>No blogs are available.</p>
+    {% for message in messages %}
+      <p id= messages>{{message}}
+{% endfor %}
+{% endif %}

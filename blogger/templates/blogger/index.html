@@ -1,0 +1,89 @@
+{% extends "blogger/base.html"  %}
+
+{% block content %}
+{% load my_extras %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4-danger">Welcome to Blogger!</h1>
+    <p class="lead">This is a Blogsite with variety of knowledge and new things updated daily!</p>
+  </div>
+</div>
+<h1><span class="badge badge-success">Latest Blogs are here</span></h1>
+
+
+
+<div>
+  <form method="GET">
+{{ filter.form }}
+  <button type="submit" class="btn btn-primary" id="search_btn">Search</button>
+</form></div>
+
+
+<div ><ul id='1'></ul></div>
+
+{% if object_list %}
+
+  {% for blog in object_list %}
+
+
+    <div class="card-fluid border-danger mb-5 "style="border-color:red">
+        <h5 class="card-header bg-warning">{{blog.blog_name}}</h5>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Published on {{blog.date}} by {{blog.author}}</br>
+          Category : {{blog.category}}</h6>
+          <p class="card-text">{{blog.blog_text|safe}}</p>
+          <a href="{% url 'blogger:details' blog.id%}" class="btn btn-dark">Go to Blog</a>
+        </div>
+    </div>
+  {% endfor %}
+  
+
+{% if is_paginated %}
+<nav aria-label="page navigation example">
+  <ul class="pagination">
+
+{% if page_obj.has_previous %}
+
+    <li class="page-item " ><a class="page-link bg-dark " href="{% my_url page_obj.previous_page_number 'page' request.GET.urlencode %}">« PREV</a></li>
+{% endif %}
+
+{% for i in paginator.page_range %}
+        
+      {% if page_obj.number == i %}
+        <li class="page-item active"><a class="page-link bg-danger" href="#">{{ i }}</a></li>
+      {% else %}
+        <li><a class="page-link bg-dark" href="{% my_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link bg-dark" href="{% my_url page_obj.next_page_number 'page' request.GET.urlencode %}">NEXT »</a>
+    </li>
+{% endif %}
+</ul>
+{% else %}
+<ul class="pagination">
+<li class="page-item active"><a class="page-link bg-danger" href="">{{page_obj.number}}</a></li>
+</ul>
+</nav>
+{% endif %} 
+{% else %}
+  <p>No blogs are available.</p>
+{% endif %}
+
+ <script type="text/javascript">
+    $(document).ready(function(){
+      $("#search_btn").click(function(event){
+          if(($("#id_category")!="" && $("#id_category") != null) || ($("#id_q")!="" && $("#id_q")!=null)){ // $("#1").value="<p>hi</p>";
+
+          $.ajax({type:"GET",dataType:"json",url:"{% url 'blogger:index' %}",data:{"category":$("#id_category").val(),"q":$("#id_q").val()},
+
+            suceess:function(reponse){
+              $("#1").append("<li>"+repose.seconds+"</li>")
+            }
+          }
+            );}
+
+        })
+      })
+  </script>
+{% endblock %}

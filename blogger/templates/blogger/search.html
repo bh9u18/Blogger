@@ -1,0 +1,66 @@
+{% extends "blogger/base.html"  %}
+
+{% block content %}
+
+<h3>Search Results</h3>
+<div>
+<form method="GET" action="">
+{{ filter.form }}
+  <button type="submit" class="btn btn-primary" id="search_btn">Search</button>
+</form></div>
+
+  {# artist-list section #}
+  <div id="replaceable-content">
+    {% include "include/results.html" %}
+    <!-- {% if request.is_ajax == True %}
+    {% include "include/results.html" %}
+    {% endif } -->
+    <!-- {% else %} -->
+   <!--  {% if filter.qs %}
+
+  {% for blog in filter.qs %}
+
+    <div class="card-fluid border-danger mb-5 "style="border-color:red">
+        <h5 class="card-header bg-warning">{{blog.blog_name}}</h5>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Published on {{blog.date}} by {{blog.author}}</br>
+          Category : {{blog.category}}</h6>
+          <p class="card-text">{{blog.blog_text|safe}}</p>
+          <a href="{% url 'blogger:details' blog.id%}" class="btn btn-dark">Go to Blog</a>
+        </div>
+    </div>
+  {% endfor %}
+  
+{% else %}
+  <p>No blogs are available.</p>
+    {% for message in messages %}
+      <p id= messages>{{message}}
+{% endfor %}
+{% endif %}
+    {% endif %} -->
+    
+  </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("#search_btn").click(function(event){
+        
+          if(($("#id_category")!="" && $("#id_category") != null) || ($("#id_q")!="" && $("#id_q")!=null)){ // $("#1").value="<p>hi</p>";
+
+          $.ajax({type:"GET",dataType:"json",url:"{% url 'blogger:search' %}",data:{"category":$("#id_category").val(),"q":$("#id_q").val()},
+
+            success:function(response){
+              
+            $("#replaceable-content").html(response.html_from_view) 
+            }
+
+          })
+            
+        }
+            event.preventDefault();
+        })
+      })
+  </script>
+
+
+{% endblock %}

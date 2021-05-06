@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Blogger{% endblock %}</title> <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+
+</head>
+<body>
+
+    {% if request.user.is_authenticated %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="{% url 'blogger:index' %}">Blogger</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+       <ul class="navbar-nav mr-auto nav-pills">
+      <li class="nav nav-item btn-dark">
+        <a class="nav-link " href="{% url 'blogger:myblogs' %}">My Blogs</a>
+      </li>&nbsp&nbsp&nbsp
+      
+     <!--  <li class="nav-item ">
+        <a class="nav-link " href="{% url 'blogger:logout' %}">Logout</a>
+      </li> -->
+      
+     <li class="nav-item btn-dark">
+        <a class="nav-link " href="{% url 'blogger:addblog' %}">Add Blog</a>
+      </li>&nbsp&nbsp&nbsp
+
+      <li class="nav-item  btn-success ">
+        <a class="nav-link " href="{% url 'blogger:addcategory' %}">Add Blog Category</a>
+      </li>
+    </ul>
+  </div>
+    <nav class="navbar navbar-success ">
+   <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Hi {{ user.username }}!
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/logout">Log Out</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+ </nav>
+{% endif %}
+ {% if not request.user.is_authenticated %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'blogger:index' %}">Blogger</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+ 
+<ul class="nav nav-pills justify-content-end">
+ 
+  <li class="nav-item btn-light">
+    <a class="nav-link " href="{% url 'blogger:registeration' %}">Register</a>
+  </li>&nbsp&nbsp&nbsp
+  <li class="nav-item btn-light">
+    <a class="nav-link"href="{% url 'blogger:login'%}">Login</a>
+  </li>
+ 
+</ul>
+ </div>
+</nav>
+{% endif %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% block footer %}
+
+    <div class="footer">
+        <div class="section-inner clearfix">
+            <hr>
+            <p>&copy;Blogger</p>
+        </div>
+    </div>
+
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+</body>
+</html>
